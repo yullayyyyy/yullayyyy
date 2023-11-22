@@ -1,0 +1,234 @@
+---
+title: "rworksheet4a"
+author: "Jonash Defensor"
+date: "2023-11-08"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 1
+
+  shoe_Size <- c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 10.5, 8.5, 12.0, 10.5, 13.0, 11.5, 8.5,5.0,10.0,6.5,7.5,8.5,10.5,8.5,10.5,11.0,9.0,13.0)
+
+  height <- c(66.0, 68.0, 64.5, 65.0, 70.0,64.0,70.0,71.0,72.0,64.0,74.5,67.0,71.0,71.0,77.0,72.0,59.0,62.0,72.0,66.0,64.0,67.0,73.0,69.0,72.0,70.0,69.0,70.0)
+
+  gender <- c("F", "F", "F", "F", "M", "F", "F", "F", "M", "F", "M" , "F", "M", "M", "M", "M", "F", "F", "M", "F", "F", "M", "M", "F", "M", "M", "M", "M")
+
+df <- data.frame(
+  ShoeSize = shoe_Size,
+  Height = height,
+  Gender = gender
+)
+
+df
+
+
+# 1.a
+
+
+
+# 1.b
+
+males <- df[df$Gender == "M",]
+females <- df[df$Gender == "F",]
+males
+females
+
+# 1.c
+
+meanOfShoeSize <- mean(df$Shoe_Size)
+meanOfHeight <- mean(df$Height)
+meanOfHeight
+meanOfShoeSize
+
+# 1.d
+# The relationship between the two variables is that shoe size and height are positively correlated. In other words, if a person has a smaller height, they are likely to have a smaller shoe size.
+
+#-------------------
+
+# 2
+monthsVector <- c("March","April","January","November","January","September","October","September","November","August","January","November","November","February","May","August","July","December","August","August","September","November","February","April")
+monthsVector
+factormonthsVector <- factor(monthsVector)
+factormonthsVector
+
+# ----------
+
+# 3
+
+summary(monthsVector)
+summary(factormonthsVector)
+
+
+
+
+# ------------
+
+# 4
+
+factorData <- c("East", "West", "North")
+factorFrequency <- c(1,4,3)
+
+neworderData <- factor(factorData,levels = c("East","West","North"))
+
+neworderData
+
+
+
+# ------------
+
+# 5
+
+imported_table <- read.csv(file = file_path , header = TRUE, sep = ",")
+imported_table
+
+
+
+# ------------
+
+# 6
+
+randomNum <- readline(prompt = "Enter number from 1 to 50: ")
+
+#error cannot knit if there is as.numeric
+#randomNum <- as.numeric(randomNum)
+
+paste("The number you have chosen is", randomNum)
+
+if (randomNum > 50) {
+  paste("The number selected is beyond the range of 1 to 50")
+} else if (randomNum == 20) {
+  paste("TRUE")
+} else {
+  paste(randomNum)
+}
+
+# 7
+
+minimumBills <- function(price) {
+ 
+  min_bills <- price %/% 50
+  paste("The minimum no. of bills:", min_bills)
+}
+
+minimumBills(900)
+
+# ----------
+
+# 8.a
+
+names <- c("Annie", "Thea", "Steve", "Hanna")
+grade1 <- c(85,65,75,95)
+grade2 <- c(65,75,55,75)
+grade3 <- c(85,90,80,100)
+grade4 <- c(100,90,85,90)
+
+grade <- data.frame(
+  Name = names,
+  Grade1 = grade1,
+  Grade2 = grade2,
+  Grade3 = grade3,
+  Grade4 = grade4
+)
+
+
+# 8.b
+
+grade$Average <- (grade$Grade1 + grade$Grade2 + grade$Grade3 + grade$Grade4) / 4
+
+highScorers <- grade[grade$Average > 90,]
+highScorers
+
+if (nrow(highScorers) > 0) {
+  paste(highScorers$Name, "'s average grade this semester is", highScorers$Average)
+} else {
+  paste("No students have an average math score over 90.")
+}
+
+# 8.c
+
+firstTest <- sum(grade$Grade1) / nrow(grade)
+firstTest
+
+secondTest <- sum(grade$Grade2) / nrow(grade)
+secondTest
+
+thirdTest <- sum(grade$Grade3) / nrow(grade)
+thirdTest
+
+fourthTest <- sum(grade$Grade4) / nrow(grade)
+fourthTest
+
+
+if (firstTest < 80) {
+  paste("The 1st test was difficult.")
+} else if(secondTest < 80) {
+  paste("The 2nd test was difficult.")
+} else if(thirdTest < 80) {
+  paste("The 3rd test was difficult.")
+} else if(fourthTest < 80) {
+  paste("The 4th test was difficult.")
+} else {
+  paste("No test had an average score less than 80.")
+}
+
+# 8.d
+# Annie scores
+if (grade[1,2] > grade[1,3] && grade[1,2] > grade[1,4] && grade[1,2] > grade[1,5]) {
+  annieHighest <- grade[1,2]
+} else if (grade[1,3] > grade[1,4] && grade[1,3] > grade[1,5]) {
+  annieHighest <- grade[1,3]
+} else if (grade[1,4] > grade[1,5] && grade[1,2] > grade[1,5]) {
+  annieHighest <- grade[1,4]
+} else {
+  annieHighest <- grade[1,5]
+}
+
+
+# Thea scores
+if (grade[2,2] > grade[2,3] && grade[2,2] > grade[2,4] && grade[2,2] > grade[2,5]) {
+  theaHighest <- grade[2,2]
+} else if (grade[2,3] > grade[2,4] && grade[2,3] > grade[2,5]) {
+  theaHighest <- grade[2,3]
+} else if (grade[2,4] > grade[2,5] && grade[2,2] > grade[2,5]) {
+  theaHighest <- grade[2,4]
+} else {
+  theaHighest <- grade[2,5]
+}
+# Steve scores
+if (grade[3,2] > grade[3,3] && grade[3,2] >grade[3,4] && grade[3,2] > grade[3,5]) {
+  steveHighest <- grade[3,2]
+} else if (grade[3,3] > grade[3,4] && grade[3,3] >grade[3,5]) {
+  steveHighest <- grade[2,3]
+} else if (grade[3,4] > grade[3,5] && grade[3,2] > grade[3,5]) {
+  steveHighest <- grade[3,4]
+} else {
+  steveHighest <- grade[3,5]
+}
+
+# Hanna scores
+if (grade[4,2] > grade[4,3] && grade[4,2] > grade[4,4] && grade[4,2] > grade[4,5]) {
+  hannaHighest <- grade[4,2]
+} else if (grade[4,3] > grade[4,4] && grade[4,3] > grade[4,5]) {
+  hannaHighest <- grade[2,3]
+} else if (grade[4,4] > grade[4,5] && grade[4,2] > grade[4,5]) {
+  hannaHighest <- grade[4,4]
+} else {
+  hannaHighest <- grade[4,5]
+}
+
+grade$HighestGrades <- c(annieHighest, theaHighest, steveHighest, hannaHighest)
+
+
+above90 <- grade[grade$HighestGrades > 90,]
+above90
+
+if (nrow(above90) > 0) {
+  paste(above90$Name, "'s highest grade this semester is", above90$HighestGrade)
+} else {
+  paste("No students have an average math score over 90.")
+}
