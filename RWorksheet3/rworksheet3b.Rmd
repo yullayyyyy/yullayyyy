@@ -1,0 +1,176 @@
+---
+title: "RWorksheet3b"
+author: "Jonash Defensor"
+date: "2023-10-11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r name, echo = TRUE} 
+#1. Create a data frame using the table below.
+#a. Write the codes.
+
+resp_no <- c(1:20)
+sex <- c(2,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2)
+occ <- c(1,3,3,3,1,2,3,1,1,1,3,2,1,3,3,1,3,1,2,1)
+pers_at_home <- c(5,7,3,8,5,9,6,7,8,4,7,5,4,7,8,8,3,11,7,6)
+sibs <- c(6,4,4,1,2,1,5,3,1,2,3,2,5,5,2,1,2,5,3,2)
+h_type <- c(1,2,3,1,1,3,3,1,2,3,2,3,2,2,3,3,3,3,3,2)
+
+
+household_data <- data.frame(
+  Respondents = resp_no,
+  Sex = sex,
+  FatherOccupation = occ,
+  PersonAtHome = pers_at_home,
+  SiblingsAtSchool = sibs,
+  HouseType = h_type
+)
+household_data
+
+#b. Describe the data. Get the structure or the summary of the data
+
+str(household_data)
+summary(household_data)
+
+# the data frame consists of 20 observations(rows) and 6 variables (columns)
+
+# the variables are:
+# respondents - which contains a numeric identifier for each respondent
+# sex - represents the gender of the respondent (1 for male, 2 for female)
+# father's occupation - indicates the father's occupation (1 for farmer, 2 for driver, 3 for others)
+# persons at home - represents the number of people at home
+# siblings at school - indicates the number of siblings attending school
+# type of house - describes the type of house (1 for wood, 2 for semi-concrete, 3 for concrete)
+
+#c.Is the mean number of siblings attending is 5?
+sibs_mean <- mean(household_data$SiblingsAtSchool)
+
+sibs_mean
+
+# the mean of the number of siblings at school is 2.95, which is not 5
+
+#d. Extract the 1st two rows and then all the columns using the subsetting functions. Write the codes and its output.
+firstTwoRows <- household_data[1:2,]
+firstTwoRows
+
+#e. Extract 3rd and 5th row with 2nd and 4th column. Write the codes and its result.
+thirdAndFifthRows <- household_data[c(3,5),c(2,4)]
+thirdAndFifthRows
+
+
+#f. Select the variable types of houses then store the vector that results as types_houses. Write the codes.
+types_houses <- household_data$HouseType
+types_houses
+
+
+#g. Select only all Males respondent that their father occupation was farmer. Write the codes and its output.
+male_farmer <- household_data[household_data$Sex == 1 & household_data$FatherOccupation == 1,]
+
+male_farmer
+
+# there are no observations
+
+#h. Select only all females respondent that have greater than or equal to 5 number of siblings attending school. Write the codes and its outputs.
+
+female_resp <- household_data[household_data$SiblingsAtSchool >= 5,]
+
+female_resp
+
+# there are five observations
+
+# ---------------------------------------------------------
+
+#2. Write a R program to create an empty data frame. Using the following codes:
+df = data.frame(Ints=integer(),
+                Doubles=double(), Characters=character(),
+                Logicals=logical(),
+                Factors=factor(),
+                stringsAsFactors=FALSE
+)
+
+print("Structure of the empty dataframe:")
+print(str(df))
+
+# df is an empty data frame created with 0 rows and 5 columns
+# the columns has the following data type:
+# ints = integer
+# doubles = double
+# characters = character
+# logicals = logical
+# factors  = factor (0 levels which means empty)
+
+# serves as a template and can be populated with data
+
+# -----------------------------------------------
+
+#3.Create a .csv file of this. Save it as HouseholdData.csv
+
+new_resp <- c(1:10)
+new_sex <- c("Male", "Female", "Female", "Male", "Male", "Female", "Female", "Male", "Female", "Male")
+new_occ <- c(1,2,3,3,1,2,2,3,1,3)
+new_personsAtHome <- c(5,7,3,8,6,4,4,2,11,6)
+new_sibs <- c(2,3,0,5,2,3,1,2,6,2)
+new_type <- c("Wood", "Congrete", "Congrete", "Wood", "Semi-congrete", "Semi-congrete", "Wood", "Semi-congrete", "Semi-congrete", "Congrete")
+
+HouseholdData <- data.frame(
+  Respondents = new_resp,
+  Sex = new_sex,
+  FatherOccupation = new_occ,
+  PersonAtHome = new_personsAtHome,
+  SiblingsAtSchool = new_sibs,
+  HouseType = new_type
+)
+
+write.csv(HouseholdData, file = "HouseholdData.csv")
+
+#a. Import the csv file into the R environment. Write the codes.
+
+imported <-  read.csv("HouseholdData.csv")
+imported
+
+#b. Convert the Sex into factor using factor() function and change it into integer.[Legend: Male = 1 and Female = 2]. Write the R codes and its output.
+
+imported$Sex <- factor(imported$Sex, levels = c("Male", "Female"))
+imported$Sex <- as.integer(imported$Sex)
+
+imported$Sex
+
+#c. Convert the Type of Houses into factor and change it into integer. [Legend: Wood = 1; Congrete = 2; Semi-Congrete = 3]. Write the R codes and its output.
+
+imported$HouseType <- factor(imported$HouseType, levels = c("Wood", "Congrete", "Semi-congrete"))
+imported$HouseType <- as.integer(imported$HouseType)
+
+imported$HouseType
+
+#d. On father's occupation, factor it as Farmer = 1; Driver = 2; and Others = 3. What is the R code and its output?
+
+imported$FatherOccupation <- factor(imported$FatherOccupation, levels = c(1,2,3), labels = c("Farmer", "Driver", "Others"))
+
+imported$FatherOccupation
+
+#e. Select only all females respondent that has a father whose occupation is driver. Write the codes and its output.
+
+female_driver <- imported[imported$Sex == 2 & imported$FatherOccupation == "Driver",]
+female_driver
+
+#f. Select the respondents that have greater than or equal to 5 number of siblings attending school. Write the codes and its output.
+
+greaterFive <- imported[imported$SiblingsAtSchool >= 5,]
+greaterFive
+
+
+#4. Interpret the graph.
+# On July 14, there were more negative sentiments compared to the other sentiments.This could indicate that some event or topics that day received negative sentiments.
+# On July 15, all sentiments increased, with the negative sentiment as the highest.This could imply that something may have happened to trigger negative reactions on that day.
+# On July 17 and July 18, the negative sentiments stayed high and the neutral and positive sentiments remained relatively similar.
+# On July 20, all sentiments got to their lowest with but there were still more negative sentiments than the others. This could indicate that nothing happened on that day.
+# On July 21, experienced an increase in all sentiments, with the negative being the highest. This could also indicate that something occurred that day that could trigger the negative responses of the people =.
+# From this data, we could assume that public sentiment is responsive to external factors and it also varies as the days go by.
+
+```
